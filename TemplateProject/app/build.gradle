@@ -1,6 +1,11 @@
 apply plugin: 'com.android.application'
+import javax.swing.filechooser.FileFilter
+import javax.swing.JFileChooser
 import groovy.swing.SwingBuilder
 
+def appName
+def packageName
+def outputPath
 new SwingBuilder().edt {
     dialog(modal: true, // Otherwise the build will continue running before you closed the dialog
             title: 'Enter Theme setting', // Dialog title
@@ -11,13 +16,34 @@ new SwingBuilder().edt {
             show: true // Let's show it
     ) {
         vbox { // Put everything below each other
-            label(text: "Please enter key passphrase:")
-            input = textField()
-            label(text: "Please enter key passphrase:")
-            input = textField()
+            label(text: "Please enter theme name:")
+            def nameInput = textField(text: "test")
+            label(text: "Please enter theme package name:")
+            def packageInput = textField(text: "com.exmpale.test")
+            label(text: "output path:")
+            def outputPathInput
+            hbox{
+                outputPathInput = textField(text: "")
+                button = button(defaultButton: true, text: 'OPEN', actionPerformed: {
+                    def filter = [
+                            getDescription: {-> "Directory"  },
+                            accept:{ file-> file.isDirectory() }
+                    ] as FileFilter
+
+                    def builder = new SwingBuilder()
+                    def fc  = builder.fileChooser(dialogTitle:'Choose an Directory',
+                            fileSelectionMode:JFileChooser.DIRECTORIES_ONLY,
+                            fileFilter:filter)
+                    if(fc.showOpenDialog() == JFileChooser.APPROVE_OPTION){
+                        outputPathInput.text = fc.selectedFile.absolutePath
+                    }
+                })
+            }
+
             button(defaultButton: true, text: 'OK', actionPerformed: {
-                pass = input.password; // Set pass variable to value of input field
-                pass = input.password; // Set pass variable to value of input field
+                appName = nameInput.text; // Set pass variable to value of input field
+                packageName = packageInput.text; // Set pass variable to value of input field
+                outputPath = outputPathInput.text; // Set pass variable to value of input field
                 dispose(); // Close dialog
             })
         }
@@ -28,7 +54,8 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "com.kogitune.templateproject"
+        applicationId packageName
+        manifestPlaceholders = [appName: appName]
         minSdkVersion 21
         targetSdkVersion 21
         versionCode 1
@@ -44,6 +71,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    applicationVariants.all { variant ->
+        println variant
     }
 }
 
