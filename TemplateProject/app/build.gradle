@@ -11,15 +11,16 @@ buildscript{
 
     }
 }
-ThemeDialog.showDialog()
+def dialog = new ThemeDialog();
+dialog.showDialog()
 
 android {
     compileSdkVersion 21
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId ext.packageName
-        manifestPlaceholders = [appName: ext.appName]
+        applicationId dialog.packageName
+        manifestPlaceholders = [appName: dialog.appName]
         minSdkVersion 21
         targetSdkVersion 21
         versionCode 1
@@ -34,11 +35,10 @@ android {
     }
 
     applicationVariants.all { variant ->
-        /*
-        println "*****"+variant.class.getName()
+        println "********"+variant.class.getName()
+        println variant.buildType.name
         variant.metaClass.methods.each{println it}
         variant.metaClass.properties.each{println it}
-        */
     }
 }
 

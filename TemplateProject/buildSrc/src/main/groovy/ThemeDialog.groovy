@@ -3,7 +3,10 @@ import javax.swing.JFileChooser
 import groovy.swing.SwingBuilder
 import java.awt.*
 class ThemeDialog{
-    static def showDialog() {
+    def appName
+    def packageName
+    def outputPath
+    def showDialog() {
         def sBuilder = new SwingBuilder()
         sBuilder.edt {
             dialog(modal: true, // Otherwise the build will continue running before you closed the dialog
@@ -40,13 +43,11 @@ class ThemeDialog{
                     }
 
                     button(defaultButton: true, text: 'OK', actionPerformed: {
-                        ext {
-                            appName = nameInput.text; // Set pass variable to value of input field
-                            packageName = packageInput.text;
-                            // Set pass variable to value of input field
-                            outputPath = outputPathInput.text;
-                            // Set pass variable to value of input field
-                        }
+                        appName = nameInput.text; // Set pass variable to value of input field
+                        packageName = packageInput.text;
+                        // Set pass variable to value of input field
+                        outputPath = outputPathInput.text;
+                        // Set pass variable to value of input field
                         dispose(); // Close dialog
                     })
                 }
