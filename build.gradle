@@ -9,7 +9,9 @@ task createThemeProject << {
 
     // Copy Project from Template
     copy {
-        from TEMPLATE_PROJECT_PATH
+        from(TEMPLATE_PROJECT_PATH){
+            exclude "**/build/**"
+        }
         into dialog.directoryName
     }
 
