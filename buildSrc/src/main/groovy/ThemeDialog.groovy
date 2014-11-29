@@ -7,6 +7,7 @@ class ThemeDialog{
     def directoryName
     def packageName
     def themePath
+    def color
     def show() {
         def sBuilder = new SwingBuilder()
         sBuilder.edt {
@@ -20,11 +21,13 @@ class ThemeDialog{
             ) {
                 vbox { // Put everything below each other
                     label(text: "Please enter theme name:")
-                    def nameInput = textField(text: "test")
+                    def nameInput = textField(text: "App Name テスト")
                     label(text: "Please enter folder name:")
                     def directoryNameInput = textField(text: "test")
                     label(text: "Please enter theme package name:")
                     def packageInput = textField(text: "com.exmpale.test")
+                    label(text: "Please enter text color code:")
+                    def colorInput = textField(text: "#0000FF")
 
                     label(text: " path:")
                     def themeImageFolderPathInput
@@ -50,12 +53,11 @@ class ThemeDialog{
 
 
                     button(defaultButton: true, text: 'OK', actionPerformed: {
-                        appName = nameInput.text; // Set pass variable to value of input field
+                        appName = nameInput.text
                         directoryName = directoryNameInput.text
-                        packageName = packageInput.text;
-                        // Set pass variable to value of input field
-                        themePath = themeImageFolderPathInput.text;
-                        // Set pass variable to value of input field
+                        packageName = packageInput.text
+                        themePath = themeImageFolderPathInput.text
+                        color = colorInput.text
                         dispose(); // Close dialog
                     })
                 }
