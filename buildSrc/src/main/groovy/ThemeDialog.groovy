@@ -11,15 +11,17 @@ class ThemeDialog{
     def show() {
         def sBuilder = new SwingBuilder()
         sBuilder.edt {
-            dialog(modal: true, // Otherwise the build will continue running before you closed the dialog
+            // Dialog settings
+            dialog(modal: true,
                     title: 'Enter Theme setting', // Dialog title
-                    alwaysOnTop: true, // pretty much what the name says
-                    resizable: false, // Don't allow the user to resize the dialog
-                    locationRelativeTo: null, // Place dialog in center of the screen
-                    pack: true, // We need to pack the dialog (so it will take the size of it's children
-                    show: true // Let's show it
+                    alwaysOnTop: true,
+                    resizable: false,
+                    locationRelativeTo: null,
+                    pack: true,
+                    show: true
             ) {
-                vbox { // Put everything below each other
+                // Vertical layout
+                vbox {
                     label(text: "Please enter theme name:")
                     def nameInput = textField(text: "App Name テスト")
                     label(text: "Please enter folder name:")
@@ -58,7 +60,7 @@ class ThemeDialog{
                         packageName = packageInput.text
                         themePath = themeImageFolderPathInput.text
                         color = colorInput.text
-                        dispose(); // Close dialog
+                        dispose()
                     })
                 }
             }
