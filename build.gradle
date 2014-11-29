@@ -1,0 +1,36 @@
+task createThemeProject << {
+    def dialog = new ThemeDialog();
+    dialog.show()
+
+    def LINE_SEPARATOR = System.getProperty("line.separator")
+    def RESOURCE_PATH = "/app/src/main/res/"
+    def JAVA_PATH = "/app/src/main/java/"
+    def TEMPLATE_PROJECT_PATH = "TemplateProject"
+
+    // Copy Project from Template
+    copy {
+        from TEMPLATE_PROJECT_PATH
+        into dialog.directoryName
+    }
+
+    // Theme image
+    if (dialog.themePath) {
+        copy {
+            // copy image resource
+            from dialog.themePath
+            into dialog.directoryName + RESOURCE_PATH
+        }
+    }
+
+    def projectExtensionFileContents = "ext{" + LINE_SEPARATOR
+    // auto generate theme.gradle
+    dialog.properties.each {
+        if ("class" == it.key) {
+            return;
+        }
+        projectExtensionFileContents += it.key + "='${it.value}'" + LINE_SEPARATOR
+    }
+    projectExtensionFileContents += "}"
+    print projectExtensionFileContents
+    file(dialog.directoryName + "/app/" + "theme.gradle").write(projectExtensionFileContents)
+}

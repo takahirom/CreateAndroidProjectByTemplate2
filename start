@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+DIR=$(cd $(dirname $0); pwd)
+cd $DIR
+rm -R test
+./gradlew createThemeProject --daemon
+cd test
+./start
+adb install -r ./app/build/outputs/apk/app-debug.apk
