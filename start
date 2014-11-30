@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-DIR=$(cd $(dirname $0); pwd)
-cd $DIR
+cd $(dirname $0)
 rm -R test
 ./gradlew createThemeProject --daemon
