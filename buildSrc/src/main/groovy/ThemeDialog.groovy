@@ -52,8 +52,6 @@ class ThemeDialog{
                     }
 
 
-
-
                     button(defaultButton: true, text: 'OK', actionPerformed: {
                         appName = nameInput.text
                         directoryName = directoryNameInput.text
