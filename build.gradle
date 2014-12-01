@@ -1,6 +1,7 @@
-apply plugin: 'java'
-sourceCompatibility = 1.6
+apply plugin: 'groovy'
+
 task createThemeProject << {
+    drowl("Show ThemeDialog","Please write setting")
     def dialog = new ThemeDialog();
     dialog.show()
 
@@ -37,6 +38,12 @@ task createThemeProject << {
     projectExtensionFileContents += "}"
     print projectExtensionFileContents
     file(dialog.directoryName + "/app/theme.gradle").write(projectExtensionFileContents)
+}
+void growl(String title, String message) {
+    def proc = ["osascript", "-e", "display notification \"${message}\" with title \"${title}\""].execute()
+    if (proc.waitFor() != 0) {
+        throw new GradleException(proc.err.text.trim());
+    }
 }
 
 defaultTasks "createThemeProject"
